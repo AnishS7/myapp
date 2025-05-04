@@ -1,14 +1,18 @@
+# Dockerfile
 FROM node:18-alpine
 
+# 1. Set working directory
 WORKDIR /usr/src/app
 
-# Install production deps
-COPY package.json ./
+# 2. Copy both package.json AND package-lock.json
+COPY package*.json ./
+
+# 3. Install production dependencies (uses the lock file)
 RUN npm ci --only=production
 
-# Copy all source (including public/)
+# 4. Copy the rest of your source (including public/)
 COPY . .
 
-# Expose and start
+# 5. Expose port and start
 EXPOSE 8080
 CMD ["npm", "start"]
