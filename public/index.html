@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyApp Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>🚀 MyApp Dashboard</h1>
+    <nav>
+      <a href="#features">Features</a> |
+      <a href="#time">Server Time</a>
+    </nav>
+  </header>
+
+  <section id="features">
+    <h2>Features</h2>
+    <ul>
+      <li>✔️ Static file serving</li>
+      <li>✔️ Styled layout with CSS</li>
+      <li>✔️ Live server time via AJAX</li>
+      <li>✔️ Containerized deployment</li>
+    </ul>
+  </section>
+
+  <section id="time">
+    <h2>Current Server Time</h2>
+    <p><span id="server-time">Loading…</span></p>
+  </section>
+
+  <footer>
+    <p>Built with ❤️ and Docker</p>
+  </footer>
+
+  <script>
+    async function fetchTime() {
+      try {
+        const resp = await fetch('/api/time');
+        const { time } = await resp.json();
+        document.getElementById('server-time').textContent = time;
+      } catch (e) {
+        document.getElementById('server-time').textContent = 'Error';
+      }
+    }
+    // Fetch once on load, then every 10s
+    fetchTime();
+    setInterval(fetchTime, 10000);
+  </script>
+</body>
+</html>
